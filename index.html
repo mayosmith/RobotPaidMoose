@@ -1,0 +1,579 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>One AI Dividend</title>
+<meta name="description" content="AI Dividend. Watch it pay for itself.">
+<meta property="og:description" content="AI Dividend. Watch it pay for itself.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one phone-width column; participant ring around the Dividend Fund, transaction feed, then leaks lab and scale-up. */
+:root{
+  --bg:#f5f7fb; --surface:#ffffff; --ink:#14203a; --muted:#5d6a83; --line:#dfe4ee;
+  --usa:#1f5fe0; --usa-soft:#e6eefd; --spend:#1d8a5b; --spend-soft:#e3f4ec; --leak:#c4472c; --leak-soft:#fbe9e4; --gold:#b7860b; --ai:#7246d1; --ai-soft:#efe9fc; --bot:#b45f06; --bot-soft:#fbeedb;
+  --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --body:"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1322; --surface:#151d31; --ink:#e8edf7; --muted:#97a3bb; --line:#26304a;
+  --usa:#6f9cff; --usa-soft:#1a2a50; --spend:#4cc48d; --spend-soft:#15322a; --leak:#f0806a; --leak-soft:#3a1d18; --gold:#e1b33c; --ai:#b39bff; --ai-soft:#2a2148; --bot:#f0a35a; --bot-soft:#3a2a16; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1322; --surface:#151d31; --ink:#e8edf7; --muted:#97a3bb; --line:#26304a;
+  --usa:#6f9cff; --usa-soft:#1a2a50; --spend:#4cc48d; --spend-soft:#15322a; --leak:#f0806a; --leak-soft:#3a1d18; --gold:#e1b33c; --ai:#b39bff; --ai-soft:#2a2148; --bot:#f0a35a; --bot-soft:#3a2a16; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:flex;flex-direction:column;gap:28px}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:clamp(30px,8vw,44px);font-weight:800;line-height:1.02}
+h2{font-size:24px;font-weight:700;line-height:1.15}
+p{margin:0}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);max-width:60ch}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+a{color:var(--usa)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--usa);outline-offset:2px}
+
+header.intro{display:flex;flex-direction:column;gap:10px}
+
+/* Meter */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stat{display:flex;flex-direction:column;gap:2px;min-width:0}
+.stat b{font-family:var(--mono);font-size:clamp(17px,5vw,22px);font-weight:500;font-variant-numeric:tabular-nums}
+.stat span{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.stat.usa b{color:var(--usa)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:7px 14px;font-weight:500;font-size:14px}
+.btn.primary{background:var(--usa);border-color:var(--usa);color:#fff}
+.btn:disabled{opacity:.45;cursor:default}
+.speed{margin-left:auto;display:flex;gap:4px;font-size:12px}
+.speed button{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:3px 7px;font-family:var(--mono)}
+.speed button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* Picker */
+.more{border-top:1px solid var(--line);padding-top:10px}
+.more summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--usa);list-style:none;display:inline-flex;align-items:center;gap:6px}
+.more summary::-webkit-details-marker{display:none}
+.more summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .2s}
+.more[open] summary::before{transform:rotate(45deg)}
+.more summary:focus-visible{outline:2px solid var(--usa);outline-offset:3px;border-radius:4px}
+.more .cost{margin-top:10px}
+.goods-lead{font-family:var(--display);font-weight:700;font-size:17px}
+.more-body{margin-top:10px;display:flex;flex-direction:column;gap:10px}
+.picker{display:flex;flex-direction:column;gap:12px}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.opt{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:2px;min-width:0}
+.opt b{font-family:var(--mono);font-size:18px;font-weight:500;font-variant-numeric:tabular-nums}
+.opt span{font-size:12px;color:var(--muted)}
+.opt[aria-checked="true"]{border-color:var(--usa);background:var(--usa-soft);box-shadow:inset 0 0 0 1px var(--usa)}
+.opt[aria-checked="true"] b{color:var(--usa)}
+.cost{display:flex;flex-direction:column;gap:6px}
+.cost-row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font-size:13px;color:var(--muted)}
+.cost-row b{color:var(--ink);font-family:var(--mono);font-weight:500}
+.gdp{position:relative;height:12px;border-radius:99px;background:var(--line);overflow:visible}
+.gdp i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:var(--usa);transition:width .4s ease,background .4s}
+.gdp i.over{background:var(--leak)}
+.gdp u{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);text-decoration:none}
+.gdp-keys{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-family:var(--mono)}
+
+/* Ring */
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:12px}
+#ring{width:100%;max-width:580px;margin:0 auto;display:block}
+#ring .track{fill:none;stroke:var(--line);stroke-width:1.5}
+.node{transition:opacity .35s,filter .35s}
+.node .in{transition:transform .3s;transform-box:fill-box;transform-origin:center}
+.node circle{fill:var(--bg);stroke:var(--line);stroke-width:1.5;transition:fill .3s,stroke .3s}
+#ring .node text{font-size:19px;font-family:inherit}
+.node.off{filter:grayscale(1);opacity:.28}
+.node.seen{filter:grayscale(.5);opacity:.7}
+.node.active{filter:none;opacity:1}
+.node.active .in{transform:scale(1.4)}
+.node.k-h circle{stroke:var(--spend)} .node.k-a circle{stroke:var(--ai)} .node.k-r circle{stroke:var(--bot)}
+.node.active.k-h circle{fill:var(--spend-soft);stroke-width:3}
+.node.active.k-a circle{fill:var(--ai-soft);stroke-width:3}
+.node.active.k-r circle{fill:var(--bot-soft);stroke-width:3}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;border:2.5px solid}
+.pill.k-h{background:var(--spend-soft);color:var(--spend)} .pill.k-a{background:var(--ai-soft);color:var(--ai)} .pill.k-r{background:var(--bot-soft);color:var(--bot)}
+.trail{fill:none;stroke:var(--spend);stroke-width:4;stroke-linecap:round}
+.spoke{stroke:var(--usa);stroke-width:1.2;opacity:.3}
+.taxdot{fill:var(--usa)}
+.ctr-bg{fill:var(--usa-soft);stroke:none;transition:fill .4s}
+.ctr-track{fill:none;stroke:var(--line);stroke-width:8}
+.ctr-ring{fill:none;stroke:var(--usa);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .5s ease}
+#ring text.ctr-flag{font-size:30px;font-family:inherit}
+#ring text.ctr-pct{font-family:var(--mono);font-size:36px;fill:var(--usa);font-weight:500}
+#ring text.ctr-lbl{font-family:var(--body);font-size:12px;fill:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+#ring text.ctr-tx{font-family:var(--body);font-size:15px;fill:var(--ink);font-weight:600}
+#ring text.ctr-amt{font-family:var(--mono);font-size:13px;fill:var(--muted)}
+#ring text#actLbl{font-family:var(--body);font-size:14px;font-weight:600;fill:var(--spend)}
+#ctr.done .ctr-bg{fill:var(--usa)}
+#ctr.done text.ctr-pct,#ctr.done text.ctr-lbl{fill:var(--surface)}
+.ctr-desc{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:2px;text-align:center;font-family:var(--body);color:var(--ink);line-height:1.2}
+.ctr-desc b{font-size:13px;font-weight:600;text-wrap:balance;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.ctr-desc span{font-size:12px;color:var(--muted);text-wrap:balance;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+#ctr.done .ctr-desc,#ctr.done .ctr-desc span{color:var(--surface)}
+
+/* Feed */
+.feed{display:flex;flex-direction:column;gap:10px;list-style:none;margin:0;padding:0}
+.tx{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:40px minmax(0,1fr);gap:4px 12px;animation:drop .35s ease}
+@keyframes drop{from{transform:translateY(-6px);opacity:.3}to{transform:none;opacity:1}}
+.av{grid-row:span 3;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:21px;background:var(--bg);border:1px solid var(--line)}
+.who{font-size:14px}
+.who b{font-weight:600}
+.memo{color:var(--muted);font-size:14px;display:flex;flex-direction:column}
+.qty{font-size:12.5px;color:var(--ink);opacity:.8}
+.meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:12px;color:var(--muted)}
+.amt{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--spend);font-weight:500}
+.pill{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600;letter-spacing:.02em}
+.pill.usa{background:var(--usa-soft);color:var(--usa)}
+.pill.free{background:var(--spend-soft);color:var(--spend)}
+.pill.new{background:var(--leak-soft);color:var(--leak)}
+.tx.final{border-color:var(--usa);background:var(--usa-soft)}
+.note{grid-column:2;font-size:13px;color:var(--ink);border-left:2px solid var(--gold);padding-left:10px;margin-top:4px}
+.empty{color:var(--muted);font-size:14px;text-align:center;padding:18px;border:1px dashed var(--line);border-radius:12px}
+
+/* Ledger of goods */
+.goods{display:flex;flex-wrap:wrap;gap:6px}
+.good{font-size:12.5px;padding:4px 10px;border-radius:99px;border:1px solid var(--line);color:var(--muted);transition:all .3s}
+.good.on{background:var(--spend-soft);border-color:transparent;color:var(--spend);font-weight:500}
+
+section{display:flex;flex-direction:column;gap:12px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.sliders{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px}
+@media (max-width:480px){.sliders{grid-template-columns:1fr}}
+.sl{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sl label{display:flex;justify-content:space-between;font-size:13px;font-weight:500}
+.sl label output{font-family:var(--mono);color:var(--leak)}
+.sl.vat label output{color:var(--usa)}
+input[type=range]{width:100%;accent-color:var(--leak)}
+.sl.vat input{accent-color:var(--usa)}
+.chartbox{overflow-x:auto}
+svg text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+.verdict{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.vcell{border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.vcell b{font-family:var(--mono);font-size:20px;font-weight:500}
+.vcell span{font-size:12px;color:var(--muted)}
+.vcell.back{background:var(--usa-soft)} .vcell.back b{color:var(--usa)}
+.vcell.gone{background:var(--leak-soft)} .vcell.gone b{color:var(--leak)}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+
+.scale{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:480px){.scale{grid-template-columns:1fr}}
+.scale div{border-top:2px solid var(--ink);padding-top:8px;display:flex;flex-direction:column;gap:2px}
+.scale b{font-family:var(--display);font-size:24px;font-weight:700}
+.scale span{font-size:13px;color:var(--muted)}
+
+footer{font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:16px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <span class="eyebrow">Universal basic income, one transaction at a time</span>
+    <h1><span id="hAmt">$3,000</span> AI Dividend each month. Watch it pay for itself.</h1>
+    <p class="lede">What if we taxed robots and AI agents so everyone shared in the rewards? What exactly would that look like?</p>
+    <p class="lede">Imagine an AI Dividend: 10% of every sale goes to the <b style="color:var(--usa)">Dividend Fund</b>, which pays every adult each month.</p>
+    <p class="lede">Follow one dividend through January in a story starring animals, robots, and AI agents.</p>
+  </header>
+
+  <section class="picker" aria-labelledby="pickH">
+    <span class="eyebrow" id="pickH">Choose the monthly dividend</span>
+    <div class="opts" role="radiogroup" aria-label="Monthly dividend">
+      <button class="opt" role="radio" data-amt="1000"><span>Low</span><b>$1,000</b><span>Helps with monthly bills</span></button>
+      <button class="opt" role="radio" data-amt="3000"><span>Medium</span><b>$3,000</b><span>Covers basics in many places</span></button>
+      <button class="opt" role="radio" data-amt="5000"><span>High</span><b>$5,000</b><span>Close to a full-time paycheck</span></button>
+    </div>
+    <details class="more">
+      <summary>Policy Details</summary>
+    <div class="cost">
+      <div class="cost-row"><span>Gross cost for 250M adults: <b id="cYear">$3.0T</b> a year</span><span><b id="cGdp">10%</b> of GDP · <b id="cRev">58%</b> of federal revenue</span></div>
+      <div class="gdp" aria-hidden="true"><u id="revMark"></u><i id="gdpFill"></i></div>
+      <div class="gdp-keys"><span>$0</span><span id="revKey">Federal revenue ≈ $5.2T</span><span>GDP ≈ $30T</span></div>
+      <p class="lede" id="cNote" style="font-size:13px"></p>
+    </div>
+    </details>
+  </section>
+
+  <div class="stage">
+    <div class="stats">
+      <div class="stat"><b id="sDay">Jan 1</b><span>Date</span></div>
+      <div class="stat"><b id="sActivity">$0</b><span>Activity</span></div>
+      <div class="stat usa"><b id="sCount">0</b><span>Paid to the fund</span></div>
+    </div>
+    <svg id="ring" viewBox="0 0 600 600" role="img" aria-label="Participants arranged in a circle around the Dividend Fund. The dividend moves around the circle one payment at a time.">
+      <circle class="track" cx="300" cy="300" r="262"/>
+      <g id="spokes"></g>
+      <g id="trails"></g>
+      <g id="ctr">
+        <circle class="ctr-bg" cx="300" cy="300" r="108"/>
+        <circle class="ctr-track" cx="300" cy="300" r="120"/>
+        <circle class="ctr-ring" id="ctrRing" cx="300" cy="300" r="120" transform="rotate(-90 300 300)"/>
+        <text class="ctr-flag" x="300" y="230" text-anchor="middle">🏦</text>
+        <text class="ctr-pct" id="sRepaid" x="300" y="272" text-anchor="middle">0.0%</text>
+        <text class="ctr-lbl" x="300" y="290" text-anchor="middle">repaid to the fund</text>
+        <foreignObject x="210" y="300" width="180" height="96"><div xmlns="http://www.w3.org/1999/xhtml" class="ctr-desc" id="ctrDesc"></div></foreignObject>
+      </g>
+      <g id="nodes"></g>
+      <g id="fx"></g>
+      <text id="actLbl"></text>
+    </svg>
+    <div class="legend"><span><i style="border-color:var(--spend)"></i>Animals</span><span><i style="border-color:var(--ai)"></i>AI agents</span><span><i style="border-color:var(--bot)"></i>Robots</span></div>
+    <div class="controls">
+      <button class="btn primary" id="play">Play the month</button>
+      <button class="btn" id="step">Next payment</button>
+      <button class="btn" id="end">Skip to Jan 31</button>
+      <button class="btn" id="reset">Reset</button>
+      <div class="speed" role="group" aria-label="Speed">
+        <button data-ms="1100">1×</button><button data-ms="600" aria-pressed="true">2×</button><button data-ms="220">5×</button>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <ol class="feed" id="feed" reversed></ol>
+  </section>
+
+  <section>
+    <details class="more">
+      <summary>See what January produced</summary>
+      <div class="more-body">
+        <p class="lede">Each paid job lights up as the money passes through. You end the month with a working furnace. Everyone downstream gets something too.</p>
+        <p class="goods-lead">Without the dividend, none of this happens:</p>
+        <div class="goods" id="goods"></div>
+      </div>
+    </details>
+  </section>
+
+  <section>
+    <span class="eyebrow">Leaks</span>
+    <h2>There's just one catch…</h2>
+    <p class="lede">The dividend repays itself only if money keeps moving. Money that goes to paying down debt, extra savings, imports, or the sock drawer stops circulating, and never reaches the next tax. Drag the sliders to see what each leak costs.</p>
+    <div class="panel">
+      <div class="sliders">
+        <div class="sl"><label for="lDebt">Paying down debt <output id="oDebt">0%</output></label><input type="range" id="lDebt" min="0" max="30" value="0"></div>
+        <div class="sl"><label for="lSave">Extra savings <output id="oSave">0%</output></label><input type="range" id="lSave" min="0" max="30" value="0"></div>
+        <div class="sl"><label for="lImp">Buying imports <output id="oImp">0%</output></label><input type="range" id="lImp" min="0" max="30" value="0"></div>
+        <div class="sl"><label for="lSock">Sock drawer <output id="oSock">0%</output></label><input type="range" id="lSock" min="0" max="30" value="0"></div>
+        <div class="sl vat"><label for="vat">VAT rate <output id="oVat">10%</output></label><input type="range" id="vat" min="2" max="20" value="10"></div>
+      </div>
+      <div class="presets">
+        <button class="btn" data-p="0,0,0,0">No leaks</button>
+        <button class="btn" data-p="4,6,8,2">Typical household</button>
+        <button class="btn" data-p="15,10,15,10">Heavy leaks</button>
+      </div>
+      <div class="chartbox"><svg id="chart" viewBox="0 0 600 260" width="100%" role="img" aria-label="Cumulative share of dividend repaid by transaction"></svg></div>
+      <div class="verdict">
+        <div class="vcell back"><b id="vBack">$5,000</b><span>Returns to the fund</span></div>
+        <div class="vcell gone"><b id="vGone">$0</b><span>Lost to leaks</span></div>
+      </div>
+      <p class="lede" id="vText" style="font-size:14px"></p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Now multiply</span>
+    <h2>This was one dividend</h2>
+    <div class="scale">
+      <div><b>250M</b><span>adults receiving one each</span></div>
+      <div><b class="num" id="scaleCost">$2.5T</b><span>paid out in dividends every month</span></div>
+      <div><b class="num" id="scaleAct">$2.5T</b><span>activity per month at this story's pace</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Adapted from <a href="https://mayoinmotion.medium.com/andrew-yang-freedom-dividend-explained-with-venmo-afecd805b16d" target="_blank" rel="noopener">“Universal Basic Income Explained with Venmo”</a> by John Mayo-Smith (2019).</p>
+    <p>Payments to the Dividend Fund represent a value added tax. To keep the story short, the last payment is a voluntary gift of the remainder to the Dividend Fund. The cast is 24 animals and 24 machines; every sale between them, whoever the buyer and seller, carries the same VAT.</p>
+    <p>Sources include Hoynes &amp; Rothstein (2019), Alavuotunki et al. (2019), Sumberg (1947), and Shinohara (1957) on multipliers and leakage.</p>
+    <p>Copyright © 2026 MSP, LLC</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+// [service, payee, emoji, day, kind (h=animal a=AI r=robot), flag, note]
+const STORY=[
+ ["Furnace repair and custom insulation","Beaver","🦫",1,"h","",""],
+ ["Robotic rotator cuff arthroscopy","Surgi-Bot","🤖",1,"r","","Beaver tore a rotator cuff hauling the old furnace. A surgical robot repairs it. Surgi-Bot sends 10% of the fee to the Dividend Fund."],
+ ["Implant sourcing, supply contract and negotiated warranty","Research Subagent","🔍",2,"a","","A robot buys an AI service. Surgi-Bot pays an AI to find the best implant suppliers and negotiate a long-term supply contract and warranty. The sale is taxed."],
+ ["Supplier relationship built over client dinners","Owl","🦉",2,"h","","AI pays Owl. The subagent negotiated the contract, but supplier relationships still run on handshakes, so it hires Owl to meet the suppliers face to face and host the dinners."],
+ ["Lake house rental","Otter","🦦",3,"h"],
+ ["Lake house maintenance (gutter cleaning and grass cutting)","House Bot","🏠",3,"r","","Otter pays a robot. House Bot sends 10% to the Dividend Fund."],
+ ["Predictive maintenance monitoring","Maintenance Agent","🩻",4,"a","","A robot buys an AI service. Maintenance Agent watches House Bot's motors and blades and orders parts before they fail. Machines paying machines still funds the dividend."],
+ ["Replacement parts delivered by air","Delivery Drone","🛸",4,"r","","AI pays a robot. Maintenance Agent spots a worn mower blade and pays Delivery Drone to fly in replacement parts."],
+ ["Drone rotor tuning","Squirrel","🐿️",5,"h","","A robot pays Squirrel to keep it flying."],
+ ["Guided mountain hike","Mountain Goat","🐐",5,"h"],
+ ["Fishing trip","Swan","🦢",6,"h"],
+ ["Fishing boat transported to the marina","Robot Truck","🚚",6,"r","","A self-driving truck hauls Swan's fishing boat to the marina and collects tax on the trip."],
+ ["Snow removal at the truck depot","Moose","🫎",7,"h"],
+ ["Booking app built","Code Agent","💻",7,"a"],
+ ["Test suite run","Test Subagent","🧪",8,"a","","Code Agent spins up a subagent to run the tests, and pays VAT on it."],
+ ["Demo video edited and narrated","Robo-Editor","🎬",8,"a","","Test Subagent records the app in action. Robo-Editor cuts it into tutorial videos with an AI voiceover."],
+ ["Video rendering and storage","Robo-Cloud","🖥️",9,"a","","Rendering video takes serious computing power, so Robo-Editor buys it from Robo-Cloud. AI paying AI, taxed the same way."],
+ ["Data check for shopping history","Raccoon","🦝",10,"h","data","Robo-Cloud pays Raccoon for shopping history. Instead of AI companies taking personal data without asking, Raccoon chooses to sell it. That sale is taxed and funds the dividend too."],
+ ["Home-cooked meals delivered","Tortoise","🐢",10,"h","","Raccoon spends the data check on a week of Tortoise's slow-cooked dinners. Cooking by hand stays a paid service."],
+ ["Ingredient orders picked and packed","Grocery Bot","🛒",11,"r","","Tortoise pays a robot. Grocery Bot picks and packs ingredients in an automated warehouse, so Tortoise can spend more time cooking."],
+ ["Produce freshness inspection","Vision AI","👁️",11,"a","","A robot buys an AI service. Grocery Bot pays Vision AI to check every tomato and pepper for ripeness before it ships."],
+ ["Field imagery collected","Farm Bot","🚜",12,"r"],
+ ["Tread repair","Hedgehog","🦔",12,"h"],
+ ["SCUBA dive instruction","Seal","🦭",13,"h"],
+ ["Training pool cleaned and rental regulators bench-tested","Dive Shop Bot","🤿",13,"r","","Seal pays a robot to keep the dive school safe. Dive Shop Bot scrubs the training pool and flow-tests every rental regulator."],
+ ["Parking lot and walkways plowed","Snowplow Bot","❄️",14,"r","","Robot pays robot. Dive Shop Bot hires Snowplow Bot so students can park and get to the pool."],
+ ["Worn plow edge replaced and hydraulics serviced","Bear","🐻",15,"h","","A robot pays Bear for hands-on repair. Snowplow Bot can clear snow on its own, but it still needs a mechanic."],
+ ["Artisan terrarium accessories","Pig","🐷",16,"h","","Artisans find new ways to earn. Bear buys terrarium accessories from Pig."],
+ ["Online storefront designed","Design Agent","🎨",16,"a"],
+ ["Product photos rendered","Image Subagent","🖼️",17,"a"],
+ ["Custom glass terrarium panels cut and polished","Glass Bot","🪟",17,"r","","AI pays a robot. Image Subagent sends the case designs to Glass Bot, which cuts and polishes the glass for Pig's terrariums."],
+ ["Cutting table compressor repaired","Badger","🦡",18,"h","","A robot pays Badger for hands-on repair. Glass Bot's cutting table runs on compressed air."],
+ ["Coaching for an advanced mechanic certification","Tutor AI","🎓",19,"a","","Badger uses AI to level up. Tutor AI coaches Badger for an advanced mechanic certification."],
+ ["Practice certification exams generated","Quiz Subagent","📝",19,"a"],
+ ["Hands-on practical exam proctored","Penguin","🐧",20,"h","","A subagent pays Penguin to run the practical test in person. An AI can't watch Badger rebuild a compressor, so hands-on testing stays a paid service."],
+ ["RV trip planned","Travel Agent AI","🧭",21,"a"],
+ ["Camp site rental","Camel","🐫",21,"h"],
+ ["Tuxedo pressed","Llama","🦙",22,"h"],
+ ["Car washed","Robo-Wash","🚿",23,"r"],
+ ["Outlets tested","Eel","🐟",23,"h"],
+ ["Trombone slide cleaned","Elephant","🐘",24,"h"],
+ ["Recording mixed and mastered","Mix Agent","🎧",25,"a"],
+ ["Listening test by sharp-eared Fox","Fox","🦊",26,"h"],
+ ["Online ads for Fox's audio-testing business","Promo Agent","📣",27,"a","","Fox pays an AI to find new customers."],
+ ["Flyers handed out at the farmers market","Rabbit","🐇",27,"h","","AI pays Rabbit. Online ads only go so far, so Promo Agent hires Rabbit to meet customers face to face."],
+ ["Blood pressure check","Tiger","🐯",28,"h","","Healthcare is taxed like everything else here, so Tiger sends 10% of the checkup fee to the Dividend Fund."],
+ ["Camp stove gasket repaired","Marmot","🐹",30,"h"],
+ ["Guitar string fixed","Cricket","🦗",31,"h"],
+ ["Digital clip of you playing Autumn Leaves on guitar","You","🙂",31,"h","","The money comes back around. Cricket buys a digital clip of you playing Autumn Leaves on the guitar."]
+];
+// realistic unit price for each STORY entry: [price, singular, plural, fractional?]
+const UNITS=[
+ [125,"hour","hours",1],[90,"minute of robotic surgery","minutes of robotic surgery"],[0.25,"negotiation round","negotiation rounds"],[250,"hour of negotiating and hosting","hours of negotiating and hosting",1],
+ [220,"night","nights",1],[60,"maintenance visit","maintenance visits"],[25,"robot-day of monitoring","robot-days of monitoring"],[6,"delivery","deliveries"],
+ [60,"hour","hours",1],[150,"day","days",1],[175,"half-day trip","half-day trips",1],[1.10,"mile","miles"],
+ [70,"visit","visits"],[2,"pull request","pull requests"],[0.02,"test run","test runs"],[20,"finished minute of video","finished minutes of video"],
+ [2,"GPU-hour","GPU-hours",1],[0.50,"receipt shared","receipts shared"],[35,"meal","meals"],[4,"order","orders"],
+ [0.02,"produce image","produce images"],[4,"acre","acres",1],[65,"hour","hours",1],[90,"lesson","lessons"],
+ [30,"service job","service jobs"],[18,"clearing","clearings"],[85,"hour","hours",1],[12,"piece","pieces"],
+ [0.25,"design variation","design variations"],[0.04,"product photo","product photos"],[12,"glass panel","glass panels"],[45,"hour","hours",1],
+ [5,"coaching session","coaching sessions"],[1,"practice exam","practice exams"],[40,"hour","hours",1],[0.75,"itinerary","itineraries"],
+ [20,"night","nights",1],[10,"tuxedo","tuxedos"],[6,"wash","washes"],[8,"outlet","outlets"],
+ [15,"cleaning","cleanings"],[0.20,"track mastered","tracks mastered"],[18,"hour","hours",1],[0.05,"ad shown","ads shown"],[18,"hour","hours",1],[10,"check","checks"],
+ [8,"gasket","gaskets"],[5,"string","strings"],[0,"clip","clips"]
+];
+if(UNITS.length!==STORY.length) console.warn("UNITS/STORY length mismatch");
+function qtyText(i,amt,short){
+  const [pr,one,many,frac]=UNITS[i];
+  if(!pr) return `1 ${one} for $${amt.toFixed(2)}`;
+  const q=amt/pr;
+  const n=frac&&q<10?Math.round(q*10)/10:Math.max(1,Math.round(q));
+  const price=pr<1?"$"+pr.toFixed(2):pr%1?"$"+pr.toFixed(2):"$"+pr.toLocaleString("en-US");
+  if(short) return `${frac&&q<10?"":"≈"}${n.toLocaleString("en-US")} ${n===1?one:many} at ${price}${frac?"/"+one.split(" ")[0]:" each"}`;
+  return `${frac&&q<10?"":"≈"}${n.toLocaleString("en-US")} ${n===1?one:many} at ${price} per ${one}`;
+}
+const KIND={h:"Animal",a:"AI",r:"Robot"};
+const VAT=0.10, ADULTS=250e6, GDP=30e12, REV=5.2e12; let DIV=3000;
+// Build transaction list
+let txs=[], TOTAL=0, activity=0;
+function buildTxs(){
+  txs=[]; let amt=DIV, payer={n:"You",e:"🙂",k:"h"}, repaid=0, usaCount=0; activity=0;
+  STORY.forEach(([svc,name,emo,day,kind,flag,note])=>{
+    const tax = flag==="free"?0:amt*VAT;
+    activity+=amt; repaid+=tax; if(tax>0) usaCount++;
+    txs.push({i:txs.length,svc,from:payer.n,fk:payer.k,to:name,tk:kind,emo,day,flag,note,amt,tax,repaid,activity,usaCount});
+    payer={n:name,e:emo,k:kind}; amt=amt-tax;
+  });
+  txs[0].note=`You get your ${"$"+DIV.toLocaleString("en-US")} dividend and spend it on a furnace repair and custom insulation. Beaver keeps 90% and sends 10% to the Dividend Fund.`;
+  repaid+=amt; usaCount++;
+  txs.push({svc:"Gift to the Dividend Fund",from:payer.n,to:"the Dividend Fund",emo:"🏦",day:31,flag:"final",note:"In a random act of kindness, you donate what is left to the Dividend Fund. The dividend is 100% repaid.",amt,tax:amt,repaid,activity,usaCount});
+  TOTAL=txs.length;
+}
+buildTxs();
+
+const $=id=>document.getElementById(id);
+const usd=(v,d=2)=>"$"+v.toLocaleString("en-US",{minimumFractionDigits:d,maximumFractionDigits:d});
+const feed=$("feed"), goods=$("goods");
+STORY.forEach((s,i)=>{const g=document.createElement("span");g.className="good";g.textContent=s[0];g.id="g"+i;goods.appendChild(g)});
+
+let shown=0, timer=null, speed=600, bulk=false;
+// Ring
+const NS="http://www.w3.org/2000/svg", CX=300, RR=262;
+const PEOPLE=[{n:"You",e:"🙂",k:"h"}].concat(STORY.filter(s=>s[1]!=="You").map(s=>({n:s[1],e:s[2],k:s[4]})));
+const NN=PEOPLE.length;
+const ang=i=>-Math.PI/2+i*2*Math.PI/NN;
+const pt=(i,r=RR)=>[CX+r*Math.cos(ang(i)),CX+r*Math.sin(ang(i))];
+const mk=(tag,attrs)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);return e};
+const nodeEls=PEOPLE.map((p,i)=>{
+  const [x,y]=pt(i);
+  const g=mk("g",{class:"node off",transform:`translate(${x.toFixed(1)} ${y.toFixed(1)})`});
+  const inner=mk("g",{class:"in"});
+  inner.appendChild(mk("circle",{r:15.5}));
+  const t=mk("text",{"text-anchor":"middle",dy:"0.36em"});t.textContent=p.e;inner.appendChild(t);
+  const title=mk("title",{});title.textContent=p.n;g.appendChild(title);
+  g.appendChild(inner);$("nodes").appendChild(g);return g;
+});
+const ringC=2*Math.PI*120; $("ctrRing").setAttribute("stroke-dasharray",ringC);
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function dur(){return bulk||reduce?0:Math.min(speed*0.75,750)}
+function setActive(i,allSeen){
+  nodeEls.forEach((g,j)=>g.setAttribute("class","node k-"+PEOPLE[j].k+" "+(j===i?"active":j<i||i<0||allSeen?"seen":"off")));
+  const lbl=$("actLbl");
+  if(i<0){lbl.textContent="";return}
+  $("nodes").appendChild(nodeEls[i]);
+  const [x,y]=pt(i,RR-32);
+  lbl.textContent=PEOPLE[i].n; lbl.style.fill=`var(--${{h:"spend",a:"ai",r:"bot"}[PEOPLE[i].k]})`;
+  lbl.setAttribute("x",x.toFixed(1));lbl.setAttribute("y",(y+5).toFixed(1));
+  const c=Math.cos(ang(i));
+  lbl.setAttribute("text-anchor",Math.abs(c)<.25?"middle":c>0?"end":"start");
+}
+function addTrail(a,b){
+  const [x1,y1]=pt(a),[x2,y2]=pt(b);
+  const path=mk("path",{class:"trail",d:`M${x1.toFixed(1)} ${y1.toFixed(1)} A${RR} ${RR} 0 0 1 ${x2.toFixed(1)} ${y2.toFixed(1)}`});
+  $("trails").appendChild(path);
+  const d=dur(); if(!d) return;
+  const L=path.getTotalLength();
+  path.style.strokeDasharray=L; path.style.strokeDashoffset=L;
+  path.getBoundingClientRect();
+  path.style.transition=`stroke-dashoffset ${d*0.5}ms ease-out`; path.style.strokeDashoffset=0;
+}
+function addTax(i){
+  const [x,y]=pt(i);
+  const spoke=()=>$("spokes").appendChild(mk("line",{class:"spoke",x1:x.toFixed(1),y1:y.toFixed(1),x2:CX,y2:CX}));
+  const d=dur(); if(!d){spoke();return}
+  const dot=mk("circle",{class:"taxdot",r:6});
+  dot.style.transform=`translate(${x}px,${y}px)`; $("fx").appendChild(dot);
+  dot.getBoundingClientRect();
+  setTimeout(()=>{dot.style.transition=`transform ${d*0.5}ms ease-in`;dot.style.transform=`translate(${CX}px,${CX}px) scale(.6)`},d*0.45);
+  setTimeout(()=>{dot.remove();spoke()},d*0.95+20);
+}
+function ringStep(k){ // k = index of transaction just shown
+  const t=txs[k];
+  const node=j=>j%NN;
+  if(t.flag==="final"){addTax(node(k));setActive(-1);$("ctr").classList.add("done");}
+  else{addTrail(node(k),node(k+1));if(t.tax>0)addTax(node(k+1));setActive(node(k+1),k+1>=NN);}
+  $("ctrDesc").innerHTML=t.flag==="final"
+    ? `<b>Gift to the Dividend Fund</b><span>${usd(t.tax)} from ${t.from}</span>`
+    : `<b>${t.from} paid ${t.to} for ${/^.[A-Z]/.test(t.svc)?t.svc:t.svc[0].toLowerCase()+t.svc.slice(1)}</b><span>${qtyText(t.i,t.amt,true)}</span>`;
+}
+function ringReset(){
+  ["spokes","trails","fx"].forEach(id=>$(id).innerHTML="");
+  $("ctr").classList.remove("done"); setActive(0);
+  $("ctrDesc").innerHTML=`<b>Your dividend arrives Jan 1</b><span>${usd(DIV,0)}</span>`;
+}
+function txNode(t){
+  const li=document.createElement("li"); li.className="tx"+(t.flag==="final"?" final":"");
+  const pills=[];
+  if(t.flag==="final") pills.push(`<span class="pill usa">${usd(t.tax)} to the Dividend Fund</span>`);
+  else if(t.tax>0) pills.push(`<span class="pill usa">${t.to} paid the fund ${usd(t.tax)}</span>`);
+  if(t.flag==="free") pills.push(`<span class="pill free">Healthcare · tax-free</span>`);
+  if(t.flag!=="final"&&(t.fk!=="h"||t.tk!=="h")){
+    const sub=t.fk==="a"&&/Subagent/.test(t.to);
+    pills.push(`<span class="pill k-${t.tk}">${sub?"Agent → Subagent":KIND[t.fk]+" → "+KIND[t.tk]}</span>`);
+  }
+  if(t.flag==="data") pills.push(`<span class="pill new">Data dividend</span>`);
+  li.innerHTML=`<div class="av" aria-hidden="true">${t.emo}</div>
+   <div class="who"><b>${t.from}</b> paid <b>${t.to}</b></div>
+   <div class="memo">${t.svc}${t.flag==="final"?"":`<span class="qty">${qtyText(t.i,t.amt)}</span>`}</div>
+   <div class="meta"><span class="amt">${t.flag==="final"?"":usd(t.amt)}</span><span>Jan ${t.day}</span>${pills.join("")}</div>
+   ${t.note?`<p class="note">${t.note}</p>`:""}`;
+  return li;
+}
+function render(){
+  const t=shown?txs[shown-1]:null;
+  const pct=t?Math.min(100,t.repaid/DIV*100):0;
+  const shownPct=t&&t.flag==="final"?100:pct;
+  $("sRepaid").textContent=(shownPct===100?"100":pct.toFixed(1))+"%";
+  $("ctrRing").setAttribute("stroke-dashoffset",(ringC*(1-shownPct/100)).toFixed(1));
+  $("sActivity").textContent=t?usd(t.activity,0):"$0";
+  $("sDay").textContent="Jan "+(t?t.day:1);
+  $("sCount").textContent=t?t.usaCount:0;
+  $("step").disabled=$("end").disabled=shown>=TOTAL;
+  $("play").disabled=shown>=TOTAL;
+  $("play").textContent=timer?"Pause":(shown?"Resume":"Play the month");
+  if(!shown) feed.innerHTML=`<li class="empty">Your ${usd(DIV,0)} arrives on January 1. Press play.</li>`;
+}
+function advance(){
+  if(shown>=TOTAL){stop();return}
+  if(!shown) feed.innerHTML="";
+  const t=txs[shown]; feed.prepend(txNode(t)); ringStep(shown);
+  if(shown<STORY.length) $("g"+shown).classList.add("on");
+  shown++; render();
+  if(shown>=TOTAL) stop();
+}
+function stop(){clearInterval(timer);timer=null;render()}
+function start(){if(timer){stop();return}timer=setInterval(advance,speed);advance();}
+$("play").onclick=start;
+$("step").onclick=()=>{stop();advance()};
+$("end").onclick=()=>{stop();bulk=true;while(shown<TOTAL)advance();bulk=false};
+$("reset").onclick=()=>{stop();shown=0;feed.innerHTML="";document.querySelectorAll(".good").forEach(g=>g.classList.remove("on"));ringReset();render()};
+document.querySelectorAll(".speed button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".speed button").forEach(x=>x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true"); speed=+b.dataset.ms;
+  if(timer){clearInterval(timer);timer=setInterval(advance,speed)}
+});
+// open with only the first participant lit
+ringReset(); render();
+
+// Scale
+const T=v=>"$"+(v/1e12).toFixed(v<1e13?1:0)+"T";
+function costs(){
+  $("scaleCost").textContent=T(DIV*ADULTS);
+  $("scaleAct").textContent=T(activity*ADULTS);
+  const yr=DIV*12*ADULTS, g=yr/GDP;
+  $("cYear").textContent=T(yr);
+  $("cGdp").textContent=Math.round(g*100)+"%";
+  $("cRev").textContent=Math.round(yr/REV*100)+"%";
+  const max=Math.max(GDP,yr);
+  $("gdpFill").style.width=(yr/max*100)+"%";
+  $("gdpFill").classList.toggle("over",yr>REV*2);
+  $("revMark").style.left=(REV/max*100)+"%";
+  $("cNote").textContent = yr>=GDP*0.4
+    ? `About ${Math.round(g*100)}% of everything the U.S. economy produces in a year. Money recirculates on paper, but the economy cannot produce that much more, so prices would rise. The story below leaves inflation out.`
+    : yr>REV
+    ? "More than the federal government collects in a year. Funding it would take a large new tax like the VAT shown below, plus cuts or swaps of existing programs."
+    : "Smaller than total federal revenue, but still a major new program. It would need a broad tax like the one shown below, and could replace some existing benefits.";
+}
+function setDiv(v){
+  DIV=v; stop(); buildTxs();
+  shown=0; feed.innerHTML=""; document.querySelectorAll(".good").forEach(g=>g.classList.remove("on"));
+  ringReset(); render(); costs(); lab();
+  $("hAmt").textContent="$"+v.toLocaleString("en-US");
+  document.querySelectorAll(".opt").forEach(o=>o.setAttribute("aria-checked",+o.dataset.amt===v?"true":"false"));
+}
+document.querySelectorAll(".opt").forEach(o=>o.onclick=()=>setDiv(+o.dataset.amt));
+
+// Leaks lab
+const ids=["Debt","Save","Imp","Sock"];
+function lab(){
+  const L=ids.reduce((s,k)=>s+ +$("l"+k).value,0)/100;
+  ids.forEach(k=>$("o"+k).textContent=$("l"+k).value+"%");
+  const r=+$("vat").value/100; $("oVat").textContent=$("vat").value+"%";
+  const N=47, pts=[], base=[];
+  let g=DIV,c=0,gb=DIV,cb=0;
+  for(let k=1;k<=N;k++){c+=r*g; g=g*(1-r)*(1-L); pts.push(c/DIV*100); cb+=r*gb; gb=gb*(1-r); base.push(cb/DIV*100);}
+  const limit=DIV*r/(1-(1-r)*(1-L));
+  const W=600,H=260,ml=40,mr=14,mt=14,mb=30,pw=W-ml-mr,ph=H-mt-mb;
+  const x=k=>ml+(k-1)/(N-1)*pw, y=v=>mt+ph-(v/100)*ph;
+  let s="";
+  [0,25,50,75,100].forEach(v=>{s+=`<line x1="${ml}" x2="${W-mr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${ml-6}" y="${y(v)+4}" text-anchor="end">${v}%</text>`});
+  [1,10,20,30,40,47].forEach(k=>{s+=`<text x="${x(k)}" y="${H-10}" text-anchor="middle">${k}</text>`});
+  const path=a=>a.map((v,i)=>(i?"L":"M")+x(i+1).toFixed(1)+" "+y(v).toFixed(1)).join(" ");
+  s+=`<path d="${path(base)}" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+  s+=`<path d="${path(pts)} L${x(N)} ${y(0)} L${x(1)} ${y(0)} Z" fill="var(--usa-soft)" stroke="none"/>`;
+  s+=`<path d="${path(pts)}" fill="none" stroke="var(--usa)" stroke-width="2.5"/>`;
+  s+=`<circle cx="${x(N)}" cy="${y(pts[N-1])}" r="4" fill="var(--usa)"/>`;
+  if(L>0){s+=`<line x1="${ml}" x2="${W-mr}" y1="${y(limit/DIV*100)}" y2="${y(limit/DIV*100)}" stroke="var(--leak)" stroke-dasharray="2 4"/><text x="${W-mr}" y="${y(limit/DIV*100)-6}" text-anchor="end" style="fill:var(--leak)">ceiling ${(limit/DIV*100).toFixed(0)}%</text>`}
+  s+=`<text x="${ml+4}" y="${mt+12}" style="fill:var(--muted)">dashed: no leaks</text>`;
+  $("chart").innerHTML=s;
+  $("vBack").textContent=usd(limit,0);
+  $("vGone").textContent=usd(DIV-limit,0);
+  $("vText").textContent = L===0
+    ? `With no leaks, every dollar eventually comes back, whatever the tax rate. At ${Math.round(r*100)}% VAT it takes about ${Math.ceil(Math.log(0.01)/Math.log(1-r))} transactions to reach 99%.`
+    : `${Math.round(L*100)}% of each payment leaks out of circulation. The dividend can never repay more than ${(limit/DIV*100).toFixed(0)}%, no matter how long you wait. The gap has to come from somewhere else.`;
+}
+ids.forEach(k=>$("l"+k).oninput=lab); $("vat").oninput=lab;
+document.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{b.dataset.p.split(",").forEach((v,i)=>$("l"+ids[i]).value=v);lab()});
+setDiv(DIV);
+})();
+</script>
+
+</body></html>
